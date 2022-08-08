@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -14,6 +15,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.
+    AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<Program>());
+
 builder.Services.AddDbContext<NZWalkContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalkDB"));
@@ -22,7 +26,7 @@ builder.Services.AddDbContext<NZWalkContext>(options =>
 builder.Services.AddScoped<IRegionRepository, SqlRegionRepository>();
 builder.Services.AddScoped<IWalkRepository, SqlWalkRepository>();
 builder.Services.AddScoped<IWalkDifficultyRepository, SqlWalkDifficultyRepository>();
-
+builder.Services.AddScoped<ITokenHandler, NZWalks.Repositories.TokenHandler>();
 builder.Services.AddSingleton<IUserRepository, StaticUserRepository>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
