@@ -9,6 +9,8 @@ namespace NZWalks.Profiles
         {
             CreateMap<Region, Models.DTOs.Region>()
                 .ReverseMap();
+            CreateMap<Region, Models.DTOs.V2.Region>()
+                .ReverseMap();
             CreateMap<Models.DTOs.AddRegionRequest, Region>();
             CreateMap<Models.DTOs.UpdateRegionRequest, Region>();
         }

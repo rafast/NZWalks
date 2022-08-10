@@ -10,6 +10,7 @@
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.7">
       <PrivateAssets>all</PrivateAssets>
@@ -28,8 +29,5 @@
     <None Remove="FluentValidation" />
     <None Remove="FluentValidation.AspNetCore" />
     <None Remove="FluentValidation.DependencyInjectionExtensions" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Validators\" />
   </ItemGroup>
 </Project>

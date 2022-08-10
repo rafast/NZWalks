@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using NZWalks.Models.Domain;
 using NZWalks.Repositories;
+using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace NZWalks.Controllers
+namespace NZWalks.Controllers.V2
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    [ApiVersion("1")]
+    [ApiVersion("2")]
     public class RegionsController : ControllerBase
     {
         private readonly IRegionRepository _regionRepository;
@@ -29,8 +29,8 @@ namespace NZWalks.Controllers
         {
             var regions = await _regionRepository.GetAllAsync();
 
-            var regionsDTO = mapper.Map<List<Models.DTOs.Region>>(regions);
-            
+            var regionsDTO = mapper.Map<List<Models.DTOs.V2.Region>>(regions);
+
             return Ok(regionsDTO);
         }
 
@@ -42,69 +42,15 @@ namespace NZWalks.Controllers
         {
             var region = await _regionRepository.GetAsync(id);
 
-            if(region == null)
-            {
-                return NotFound();
-            }
-
-            var regionDTO = mapper.Map<Models.DTOs.Region>(region);
-            return Ok(regionDTO);
-        }
-
-        // POST api/<RegionsController>
-        [HttpPost]
-        [Authorize(Roles = "writer")]
-        public async Task<IActionResult> AddRegionAsync(Models.DTOs.AddRegionRequest addRegionRequest)
-        {
-            if (!ValidateAddRegionAsync(addRegionRequest))
-            {
-                return BadRequest(ModelState);
-            }
-            var region = mapper.Map<Region>(addRegionRequest);
-
-            region = await _regionRepository.AddAsync(region);
-
-            var regionDTO = mapper.Map<Models.DTOs.Region>(region);
-
-            return CreatedAtAction(nameof(GetRegionAsync), new {id = regionDTO.Id}, regionDTO);
-        }
-
-        // PUT api/<RegionsController>/5
-        [HttpPut("{id:guid}")]
-        [Authorize(Roles = "writer")]
-        public async Task<IActionResult> UpdateRegionAsync(Guid id, [FromBody] Models.DTOs.UpdateRegionRequest updateRegionRequest)
-        {
-            if (!ValidateUpdateRegionAsync(updateRegionRequest))
-            {
-                return BadRequest(ModelState);
-            }
-            var region = mapper.Map<Region>(updateRegionRequest);
-            var updatedRegion = await _regionRepository.UpdateAsync(id, region);
-
-            if (updatedRegion == null)
-            {
-                return NotFound();
-            }
-
-            var regionDTO = mapper.Map<Models.DTOs.Region>(updatedRegion);
-            return Ok(regionDTO);
-        }
-
-        // DELETE api/<RegionsController>/5
-        [HttpDelete("{id:guid}")]
-        [Authorize(Roles = "writer")]
-        public async Task<IActionResult> DeleteRegionAsync(Guid id)
-        {
-            var region = await _regionRepository.DeleteAsync(id);
-
             if (region == null)
             {
                 return NotFound();
             }
 
-            var regionDTO = mapper.Map<Models.DTOs.Region>(region);
+            var regionDTO = mapper.Map<Models.DTOs.V2.Region>(region);
             return Ok(regionDTO);
         }
+
 
         #region Private methods
         private bool ValidateAddRegionAsync(Models.DTOs.AddRegionRequest addRegionRequest)

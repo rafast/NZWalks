@@ -11,6 +11,7 @@ namespace NZWalks.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiVersion("1")]
     public class AuthController : ControllerBase
     {
         private readonly IUserRepository userRepository;
